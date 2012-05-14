@@ -193,6 +193,13 @@ public abstract class JMeterAbstractMojo extends AbstractMojo {
      * @readonly
      */
     protected List<Artifact> pluginArtifacts;
+    
+    /**
+     * Dependency artifacts to add to extensions directory.
+     *
+     * @parameter
+     */
+    protected List<String> extensions;
 
     //---------------------------------------------------
 
@@ -255,7 +262,7 @@ public abstract class JMeterAbstractMojo extends AbstractMojo {
     protected void populateJMeterDirectoryTree() throws MojoExecutionException {
         for (Artifact artifact : this.pluginArtifacts) {
             try {
-                if (artifact.getArtifactId().startsWith("ApacheJMeter_")) {
+                if (artifact.getArtifactId().startsWith("ApacheJMeter_") || (extensions != null && extensions.contains ( artifact.getArtifactId ( ) ))) {
                     if (artifact.getArtifactId().startsWith("ApacheJMeter_config")) {
                         JarFile configSettings = new JarFile(artifact.getFile());
                         Enumeration<JarEntry> entries = configSettings.entries();
